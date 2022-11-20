@@ -2,6 +2,6 @@ package bridge.type;
 
 public enum InputType {
     BRIDGE_LENGTH,
-    SPACE_TO_BE_MOVED,
+    MOVE_SELECT,
     RESTART_OR_QUIT
 }
