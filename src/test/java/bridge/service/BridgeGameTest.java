@@ -68,4 +68,17 @@ class BridgeGameTest {
         assertThat(response2.isSuccess()).isTrue();
         assertThat(response2.isPossible()).isTrue();
     }
+
+    @Test
+    public void retrySuccess() {
+        //given
+        int attemptCount = 1;
+        Request request = new Request(0, attemptCount, BridgeSpaceStatus.UP);
+
+        //when
+        Response response = bridgeGame.retry(request);
+
+        //then
+        assertThat(response.getAttemptCount()).isEqualTo(attemptCount + 1);
+    }
 }
