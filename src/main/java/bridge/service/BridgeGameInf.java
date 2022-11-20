@@ -7,5 +7,5 @@ public interface BridgeGameInf {
 
     BridgeMove.Response move(BridgeMove.Request request, Bridge bridge);
 
-    void retry();
+    BridgeMove.Response retry(BridgeMove.Request request);
 }
