@@ -30,4 +30,13 @@ public enum BridgeSpaceStatus {
                 () -> new IllegalArgumentException(ErrorCode.INVALID_SIGNATURE_NUMBER.getMessage())
             );
     }
+
+    public static BridgeSpaceStatus findByLetter(final String letter) {
+        return Arrays.stream(BridgeSpaceStatus.values())
+            .filter(bridgeInformation -> bridgeInformation.letter.equals(letter))
+            .findAny()
+            .orElseThrow(
+                () -> new IllegalArgumentException(ErrorCode.INVALID_SIGNATURE_LETTER.getMessage())
+            );
+    }
 }
