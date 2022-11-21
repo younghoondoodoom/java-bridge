@@ -4,6 +4,7 @@ import bridge.BridgeMakerInf;
 import bridge.domain.Bridge;
 import bridge.dto.BridgeMove.Request;
 import bridge.dto.BridgeMove.Response;
+import bridge.dto.PrintMapDto;
 import bridge.dto.PrintResultDto;
 import bridge.service.BridgeGameInf;
 import bridge.type.BridgeSpaceStatus;
@@ -41,18 +42,25 @@ public class BridgeController {
 
     private Response crossBridge(Bridge bridge) {
         Response initResponse = new Response(false, false, 1, 0);
-        return getResult(bridge, initResponse);
+        return getCrossBridgeResult(bridge, initResponse);
     }
 
-    private Response getResult(Bridge bridge, Response response) {
+    private Response getCrossBridgeResult(Bridge bridge, Response response) {
         while (true) {
             Request request = new Request(response.getIndex(), response.getAttemptCount(), getMove());
-            response = bridgeGame.move(request, bridge);
-            OutputView.printMap(bridge.getSequence(), response.isPossible(), request.getIndex());
-            if (response.isSuccess() || (!response.isPossible() && !getGameCommand()))
+            response = getAndPrintResponse(bridge, request);
+            if (response.isSuccess() || (!response.isPossible() && !getGameCommand())) {
                 break;
+            }
             response = retryCheck(response, request);
         }
+        return response;
+    }
+
+    private Response getAndPrintResponse(Bridge bridge, Request request) {
+        Response response;
+        response = bridgeGame.move(request, bridge);
+        OutputView.printMap(new PrintMapDto(bridge.getSequence(), response.isPossible(), request.getIndex()));
         return response;
     }
 
