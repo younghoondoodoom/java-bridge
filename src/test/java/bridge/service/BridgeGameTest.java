@@ -30,9 +30,8 @@ class BridgeGameTest {
         //given
         int index1 = -1;
         int index2 = 10;
-
-        Request request1 = new Request(index1, 0, BridgeSpaceStatus.DOWN);
-        Request request2 = new Request(index2, 0, BridgeSpaceStatus.DOWN);
+        Request request1 = new Request(index1, 1, BridgeSpaceStatus.DOWN);
+        Request request2 = new Request(index2, 1, BridgeSpaceStatus.DOWN);
 
         //when
         //then
@@ -50,23 +49,51 @@ class BridgeGameTest {
     }
 
     @Test
-    public void moveSuccess() {
+    public void moveIsSuccess() {
         //given
-        int index1 = 0;
-        int index2 = 9;
-
-        Request request1 = new Request(index1, 0, BridgeSpaceStatus.UP);
-        Request request2 = new Request(index2, 0, BridgeSpaceStatus.UP);
+        int index = 9;
+        Request request = new Request(index, 1, BridgeSpaceStatus.UP);
 
         //when
-        Response response1 = bridgeGame.move(request1, bridge);
-        Response response2 = bridgeGame.move(request2, bridge);
+        Response response = bridgeGame.move(request, bridge);
 
         //then
-        assertThat(response1.isSuccess()).isFalse();
-        assertThat(response1.isPossible()).isFalse();
-        assertThat(response2.isSuccess()).isTrue();
-        assertThat(response2.isPossible()).isTrue();
+        assertThat(response.isSuccess()).isTrue();
+        assertThat(response.isPossible()).isTrue();
+        assertThat(response.getAttemptCount()).isEqualTo(request.getAttemptCount());
+        assertThat(response.getIndex()).isEqualTo(request.getIndex());
+    }
+
+    @Test
+    public void moveIsPossibleAndIsNotSuccess() {
+        //given
+        int index = 0;
+        Request request = new Request(index, 1, BridgeSpaceStatus.DOWN);
+
+        //when
+        Response response = bridgeGame.move(request, bridge);
+
+        //then
+        assertThat(response.isSuccess()).isFalse();
+        assertThat(response.isPossible()).isTrue();
+        assertThat(response.getAttemptCount()).isEqualTo(request.getAttemptCount());
+        assertThat(response.getIndex()).isEqualTo(request.getIndex() + 1);
+    }
+
+    @Test
+    public void moveIsNotPossible() {
+        //given
+        int index = 1;
+        Request request = new Request(index, 1, BridgeSpaceStatus.UP);
+
+        //when
+        Response response = bridgeGame.move(request, bridge);
+
+        //then
+        assertThat(response.isSuccess()).isFalse();
+        assertThat(response.isPossible()).isFalse();
+        assertThat(response.getAttemptCount()).isEqualTo(request.getAttemptCount());
+        assertThat(response.getIndex()).isEqualTo(request.getIndex());
     }
 
     @Test
