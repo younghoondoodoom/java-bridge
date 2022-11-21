@@ -2,6 +2,7 @@ package bridge.service;
 
 import bridge.domain.Bridge;
 import bridge.dto.BridgeMove;
+import bridge.dto.BridgeMove.Request;
 import bridge.dto.BridgeMove.Response;
 import bridge.exception.ErrorCode;
 
@@ -18,14 +19,7 @@ public class BridgeGame implements BridgeGameInf {
     @Override
     public BridgeMove.Response move(BridgeMove.Request request, Bridge bridge) {
         validateIndex(request.getIndex(), bridge.getSequence().size());
-        if (isPossibleMove(request, bridge)) {
-            if (bridge.getSequence().size() - 1 == request.getIndex()) {
-                return new BridgeMove.Response(true, true, request.getAttemptCount(), request.getIndex());
-            }
-            return new BridgeMove.Response(false, true, request.getAttemptCount(),
-                request.getIndex() + 1);
-        }
-        return new BridgeMove.Response(false, false, request.getAttemptCount(), request.getIndex());
+        return getResponse(request, bridge);
     }
 
     /**
@@ -36,6 +30,17 @@ public class BridgeGame implements BridgeGameInf {
     @Override
     public BridgeMove.Response retry(BridgeMove.Request request) {
         return new Response(false, false, request.getAttemptCount() + 1, 0);
+    }
+
+    private Response getResponse(Request request, Bridge bridge) {
+        if (isPossibleMove(request, bridge)) {
+            if (bridge.getSequence().size() - 1 == request.getIndex()) {
+                return new Response(true, true, request.getAttemptCount(), request.getIndex());
+            }
+            return new Response(false, true, request.getAttemptCount(),
+                request.getIndex() + 1);
+        }
+        return new Response(false, false, request.getAttemptCount(), request.getIndex());
     }
 
     private boolean isPossibleMove(BridgeMove.Request request, Bridge bridge) {
