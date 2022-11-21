@@ -35,17 +35,17 @@ public class BridgeController {
         printResult(bridge, response);
     }
 
-    private void printResult(Bridge bridge, Response response) {
+    private void printResult(final Bridge bridge, final Response response) {
         OutputView.printResult(new PrintResultDto(bridge.getSequence(), response.isSuccess(),
             response.getAttemptCount(), response.getIndex()));
     }
 
-    private Response crossBridge(Bridge bridge) {
+    private Response crossBridge(final Bridge bridge) {
         Response initResponse = new Response(false, false, 1, 0);
         return getCrossBridgeResult(bridge, initResponse);
     }
 
-    private Response getCrossBridgeResult(Bridge bridge, Response response) {
+    private Response getCrossBridgeResult(final Bridge bridge, Response response) {
         while (true) {
             Request request = new Request(response.getIndex(), response.getAttemptCount(), getMove());
             response = getAndPrintResponse(bridge, request);
@@ -57,14 +57,13 @@ public class BridgeController {
         return response;
     }
 
-    private Response getAndPrintResponse(Bridge bridge, Request request) {
-        Response response;
-        response = bridgeGame.move(request, bridge);
+    private Response getAndPrintResponse(final Bridge bridge, final Request request) {
+        Response response = bridgeGame.move(request, bridge);
         OutputView.printMap(new PrintMapDto(bridge.getSequence(), response.isPossible(), request.getIndex()));
         return response;
     }
 
-    private Response retryCheck(Response response, Request request) {
+    private Response retryCheck(Response response, final Request request) {
         if (!response.isPossible()) {
             response = bridgeGame.retry(request);
         }

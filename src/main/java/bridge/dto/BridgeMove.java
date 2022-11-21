@@ -32,8 +32,8 @@ public class BridgeMove {
     public static class Response {
         private final boolean isSuccess;
         private final boolean isPossible;
-        private int attemptCount;
-        private int index;
+        private final int attemptCount;
+        private final int index;
 
         public Response(boolean isSuccess, boolean isPossible, int attemptCount, int index) {
             this.isSuccess = isSuccess;
