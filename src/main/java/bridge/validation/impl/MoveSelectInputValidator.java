@@ -21,10 +21,14 @@ public class MoveSelectInputValidator implements InputValidationChain {
         if (!request.getType().equals(InputType.MOVE_SELECT)) {
             return next.validate(request);
         }
-        if (!request.getTarget().equals(BridgeSpaceStatus.UP.getLetter()) &&
-            !request.getTarget().equals(BridgeSpaceStatus.DOWN.getLetter())) {
+        if (bothIncorrectLetter(request)) {
             return new Response(false, ErrorCode.INVALID_INPUT.getMessage());
         }
         return new Response(true);
+    }
+
+    private boolean bothIncorrectLetter(Request request) {
+        return !request.getTarget().equals(BridgeSpaceStatus.UP.getLetter()) &&
+            !request.getTarget().equals(BridgeSpaceStatus.DOWN.getLetter());
     }
 }

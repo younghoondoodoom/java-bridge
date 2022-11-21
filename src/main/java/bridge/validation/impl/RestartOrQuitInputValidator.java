@@ -21,10 +21,14 @@ public class RestartOrQuitInputValidator implements InputValidationChain {
         if (!request.getType().equals(InputType.RESTART_OR_QUIT)) {
             return next.validate(request);
         }
-        if (!request.getTarget().equals(BridgeInformation.RESTART) &&
-            !request.getTarget().equals(BridgeInformation.QUIT)) {
+        if (bothIncorrectLetter(request)) {
             return new Response(false, ErrorCode.INVALID_INPUT.getMessage());
         }
         return new Response(true);
+    }
+
+    private boolean bothIncorrectLetter(Request request) {
+        return !request.getTarget().equals(BridgeInformation.RESTART) &&
+            !request.getTarget().equals(BridgeInformation.QUIT);
     }
 }
