@@ -32,12 +32,14 @@ public class BridgeMove {
     public static class Response {
         private final boolean isSuccess;
         private final boolean isPossible;
-        private final int attemptCount;
+        private int attemptCount;
+        private int index;
 
-        public Response(boolean isSuccess, boolean isPossible, int attemptCount) {
+        public Response(boolean isSuccess, boolean isPossible, int attemptCount, int index) {
             this.isSuccess = isSuccess;
             this.isPossible = isPossible;
             this.attemptCount = attemptCount;
+            this.index = index;
         }
 
         public boolean isSuccess() {
@@ -50,6 +52,10 @@ public class BridgeMove {
 
         public int getAttemptCount() {
             return attemptCount;
+        }
+
+        public int getIndex() {
+            return index;
         }
     }
 }

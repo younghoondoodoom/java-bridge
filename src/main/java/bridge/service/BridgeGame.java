@@ -20,11 +20,12 @@ public class BridgeGame implements BridgeGameInf {
         validateIndex(request.getIndex(), bridge.getSequence().size());
         if (isPossibleMove(request, bridge)) {
             if (bridge.getSequence().size() - 1 == request.getIndex()) {
-                return new BridgeMove.Response(true, true, request.getAttemptCount());
+                return new BridgeMove.Response(true, true, request.getAttemptCount(), request.getIndex());
             }
-            return new BridgeMove.Response(false, true, request.getAttemptCount());
+            return new BridgeMove.Response(false, true, request.getAttemptCount(),
+                request.getIndex() + 1);
         }
-        return new BridgeMove.Response(false, false, request.getAttemptCount());
+        return new BridgeMove.Response(false, false, request.getAttemptCount(), request.getIndex());
     }
 
     /**
@@ -34,7 +35,7 @@ public class BridgeGame implements BridgeGameInf {
      */
     @Override
     public BridgeMove.Response retry(BridgeMove.Request request) {
-        return new Response(false, false, request.getAttemptCount() + 1);
+        return new Response(false, false, request.getAttemptCount() + 1, 0);
     }
 
     private boolean isPossibleMove(BridgeMove.Request request, Bridge bridge) {
