@@ -32,7 +32,7 @@ class BridgeMakerTest {
         int size = 20;
 
         //when
-        Bridge bridge = bridgeMaker.makeBridge(size);
+        Bridge bridge = new Bridge(bridgeMaker.makeBridge(size));
 
         //then
         assertThat(bridge.getSequence().size()).isEqualTo(20);

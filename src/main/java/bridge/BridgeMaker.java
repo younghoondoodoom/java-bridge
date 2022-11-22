@@ -1,6 +1,5 @@
 package bridge;
 
-import bridge.domain.Bridge;
 import bridge.exception.ErrorCode;
 import bridge.type.BridgeSpaceStatus;
 import java.util.ArrayList;
@@ -22,10 +21,9 @@ public class BridgeMaker implements BridgeMakerInf {
      * @return 입력받은 길이에 해당하는 다리 모양. 위 칸이면 "U", 아래 칸이면 "D"로 표현해야 한다.
      */
     @Override
-    public Bridge makeBridge(int size) {
+    public List<String> makeBridge(int size) {
         validateSize(size);
-        List<String> sequence = makeSequence(size);
-        return new Bridge(sequence);
+        return makeSequence(size);
     }
 
     private List<String> makeSequence(int size) {

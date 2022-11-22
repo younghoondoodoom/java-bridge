@@ -1,8 +1,8 @@
 package bridge;
 
-import bridge.domain.Bridge;
+import java.util.List;
 
 public interface BridgeMakerInf {
 
-    Bridge makeBridge(int size);
+    List<String> makeBridge(int size);
 }

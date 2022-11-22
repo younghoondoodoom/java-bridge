@@ -72,7 +72,7 @@ public class BridgeController {
 
     private Bridge makeBridge() {
         final int size = getSize();
-        return bridgeMaker.makeBridge(size);
+        return new Bridge(bridgeMaker.makeBridge(size));
     }
 
 
