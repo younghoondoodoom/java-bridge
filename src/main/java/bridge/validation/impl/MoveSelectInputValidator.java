@@ -6,8 +6,9 @@ import bridge.exception.ErrorCode;
 import bridge.type.BridgeSpaceStatus;
 import bridge.type.InputType;
 import bridge.validation.InputValidationChain;
+import bridge.validation.support.ValidationSupport;
 
-public class MoveSelectInputValidator implements InputValidationChain {
+public class MoveSelectInputValidator extends ValidationSupport implements InputValidationChain {
 
     private InputValidationChain next;
 
@@ -21,14 +22,10 @@ public class MoveSelectInputValidator implements InputValidationChain {
         if (!request.getType().equals(InputType.MOVE_SELECT)) {
             return next.validate(request);
         }
-        if (bothIncorrectLetter(request)) {
+        if (!isExceptedLetter(request, BridgeSpaceStatus.UP.getLetter(),
+            BridgeSpaceStatus.DOWN.getLetter())) {
             return new Response(false, ErrorCode.INVALID_INPUT.getMessage());
         }
         return new Response(true);
-    }
-
-    private boolean bothIncorrectLetter(Request request) {
-        return !request.getTarget().equals(BridgeSpaceStatus.UP.getLetter()) &&
-            !request.getTarget().equals(BridgeSpaceStatus.DOWN.getLetter());
     }
 }

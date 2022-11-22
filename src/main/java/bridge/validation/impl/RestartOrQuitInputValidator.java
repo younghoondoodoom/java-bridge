@@ -6,8 +6,9 @@ import bridge.dto.InputValidationDto.Response;
 import bridge.exception.ErrorCode;
 import bridge.type.InputType;
 import bridge.validation.InputValidationChain;
+import bridge.validation.support.ValidationSupport;
 
-public class RestartOrQuitInputValidator implements InputValidationChain {
+public class RestartOrQuitInputValidator extends ValidationSupport implements InputValidationChain {
 
     private InputValidationChain next;
 
@@ -21,14 +22,9 @@ public class RestartOrQuitInputValidator implements InputValidationChain {
         if (!request.getType().equals(InputType.RESTART_OR_QUIT)) {
             return next.validate(request);
         }
-        if (bothIncorrectLetter(request)) {
+        if (!isExceptedLetter(request, BridgeInformation.RESTART, BridgeInformation.QUIT)) {
             return new Response(false, ErrorCode.INVALID_INPUT.getMessage());
         }
         return new Response(true);
-    }
-
-    private boolean bothIncorrectLetter(Request request) {
-        return !request.getTarget().equals(BridgeInformation.RESTART) &&
-            !request.getTarget().equals(BridgeInformation.QUIT);
     }
 }
